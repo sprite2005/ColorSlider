@@ -87,6 +87,7 @@ public enum Orientation {
 ///
 
 public class ColorSlider: UIControl {
+    private var sendActions = true
 	/// The selected color.
 	public var color: UIColor {
 		get {
@@ -98,9 +99,17 @@ public class ColorSlider: UIControl {
 			previewView?.colorChanged(to: color)
 			previewView?.transition(to: .inactive)
 			
-			sendActions(for: .valueChanged)
+            if sendActions {
+                sendActions(for: .valueChanged)
+            }
 		}
 	}
+    
+    public func updateColorWithoutCallback(color: UIColor) {
+        sendActions = false
+        self.color = color
+        sendActions = true
+    }
 	
 	/// The background gradient view.
 	public let gradientView: GradientView
